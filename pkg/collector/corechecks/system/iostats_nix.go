@@ -73,7 +73,11 @@ func (c *IOCheck) nixIO() error {
 
 		tagbuff.Reset()
 		tagbuff.WriteString("device:")
-		tagbuff.WriteString(device)
+		if ioStats.Label != "" {
+			tagbuff.WriteString(ioStats.Label)
+		} else {
+			tagbuff.WriteString(device)
+		}
 		tags := []string{tagbuff.String()}
 
 		sender.Rate("system.io.r_s", float64(ioStats.ReadCount), "", tags)
